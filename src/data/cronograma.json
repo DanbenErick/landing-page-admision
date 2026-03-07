@@ -1,0 +1,42 @@
+[
+  {
+    "day": "15",
+    "month": "ENE",
+    "title": "Inicio de Inscripciones",
+    "text": "Apertura de pagos en el Banco de la Nación y registro de postulantes a través del portal web institucional para todas las modalidades.",
+    "highlight": false,
+    "primaryStyle": false
+  },
+  {
+    "day": "05",
+    "month": "MAR",
+    "title": "Examen Extraordinario y CEPRE UNDAC",
+    "text": "Evaluación exclusiva para primeros puestos, graduados, deportistas calificados, víctimas de terrorismo y postulantes CEPRE.",
+    "highlight": false,
+    "primaryStyle": false
+  },
+  {
+    "day": "12",
+    "month": "MAR",
+    "title": "Cierre de Inscripciones (Ordinario)",
+    "text": "Último día para el pago por derecho de examen de admisión ordinario y validación de expedientes.",
+    "highlight": true,
+    "primaryStyle": false
+  },
+  {
+    "day": "22",
+    "month": "MAR",
+    "title": "Examen General de Admisión",
+    "text": "Evaluación presencial modalidad Ordinaria. El ingreso a la Ciudad Universitaria será desde las 07:00 a.m. hasta las 09:00 a.m.",
+    "highlight": true,
+    "primaryStyle": true
+  },
+  {
+    "day": "23",
+    "month": "MAR",
+    "title": "Publicación de Resultados",
+    "text": "Publicación del cuadro de méritos y relación de ingresantes a través de nuestra página web y paneles informativos.",
+    "highlight": false,
+    "primaryStyle": false
+  }
+]

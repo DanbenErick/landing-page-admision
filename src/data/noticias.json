@@ -1,0 +1,42 @@
+[
+  {
+    "image": "/img/news-1.jpg",
+    "tag": "Admisión",
+    "date": "15 de marzo, 2026",
+    "title": "Convocatoria Examen de Admisión Extraordinario 2026-II",
+    "summary": "Se convoca al examen de admisión extraordinario 2026-II para todas las escuelas profesionales de la UNDAC. Las inscripciones están abiertas hasta el 30 de marzo.",
+    "content": "La Universidad Nacional Daniel Alcides Carrión convoca a todos los egresados de educación secundaria a participar en el examen de admisión extraordinario 2026-II. Este proceso permitirá el ingreso a las diversas escuelas profesionales que ofrece nuestra casa de estudios. Las inscripciones se realizan de manera presencial en la oficina de admisión o de manera virtual a través del portal institucional. Se recomienda a los postulantes revisar el prospecto de admisión y el cronograma de actividades disponibles en la sección de documentos."
+  },
+  {
+    "image": "/img/news-2.jpg",
+    "tag": "Resultados",
+    "date": "10 de marzo, 2026",
+    "title": "Resultados del Examen de Admisión Ordinario 2026-I",
+    "summary": "Ya están disponibles los resultados del examen de admisión ordinario 2026-I. Consulta los cuadros de mérito por escuela profesional.",
+    "content": "La Dirección de Admisión publica los resultados oficiales del examen de admisión ordinario 2026-I. Los postulantes pueden consultar los cuadros de mérito por escuela profesional a través de la página web institucional. Los ingresantes deberán realizar su matrícula en las fechas establecidas en el cronograma académico. Se felicita a todos los nuevos estudiantes que formarán parte de la familia UNDAC."
+  },
+  {
+    "image": "/img/news-3.jpg",
+    "tag": "Evento",
+    "date": "5 de marzo, 2026",
+    "title": "Simulacro Nacional de Examen de Admisión",
+    "summary": "La UNDAC organiza un simulacro nacional de examen de admisión gratuito para todos los postulantes interesados.",
+    "content": "Con el objetivo de preparar a los futuros postulantes, la UNDAC organiza un simulacro nacional de examen de admisión de carácter gratuito. Este evento se realizará en las instalaciones de la Ciudad Universitaria de Yanacancha. Los participantes recibirán un informe detallado de sus resultados y recomendaciones para mejorar su preparación."
+  },
+  {
+    "image": "/img/news-1.jpg",
+    "tag": "CEPRE",
+    "date": "1 de marzo, 2026",
+    "title": "Inicio del Nuevo Ciclo CEPRE UNDAC 2026",
+    "summary": "Se apertura las matrículas para el nuevo ciclo del Centro Preuniversitario de la UNDAC. Clases presenciales y virtuales.",
+    "content": "El Centro Preuniversitario de la UNDAC anuncia el inicio de matrículas para el nuevo ciclo académico 2026. Los estudiantes podrán elegir entre la modalidad presencial y virtual. El CEPRE UNDAC ofrece una preparación integral que incluye todas las áreas evaluadas en el examen de admisión, con docentes altamente calificados y material didáctico actualizado."
+  },
+  {
+    "image": "/img/news-2.jpg",
+    "tag": "Institucional",
+    "date": "25 de febrero, 2026",
+    "title": "UNDAC Obtiene Licenciamiento Institucional",
+    "summary": "La SUNEDU otorga el licenciamiento institucional a la UNDAC, ratificando las condiciones básicas de calidad.",
+    "content": "La Superintendencia Nacional de Educación Superior Universitaria (SUNEDU) ha otorgado el licenciamiento institucional a la Universidad Nacional Daniel Alcides Carrión por un periodo de 6 años. Este logro ratifica que la UNDAC cumple con las condiciones básicas de calidad establecidas en la Ley Universitaria, fortaleciendo su compromiso con la formación de profesionales competentes."
+  }
+]

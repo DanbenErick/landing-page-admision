@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import HeroSlider from '../components/HeroSlider.astro';
+import cronograma from '../data/cronograma.json';
 ---
 
 <Layout 
@@ -82,60 +83,18 @@ import HeroSlider from '../components/HeroSlider.astro';
         </div>
 
         <div class="timeline">
-          <div class="timeline__item">
-            <div class="timeline__date">
-              <span class="timeline__day">15</span>
-              <span class="timeline__month">ENE</span>
+          {cronograma.map((item) => (
+            <div class="timeline__item">
+              <div class="timeline__date">
+                <span class="timeline__day">{item.day}</span>
+                <span class="timeline__month">{item.month}</span>
+              </div>
+              <div class="timeline__content card" style={item.highlight ? (item.primaryStyle ? "background: var(--color-primary-50); border-left: 4px solid var(--color-primary);" : "border-left: 4px solid var(--color-primary);") : ""}>
+                <h3 class="timeline__title" style={item.primaryStyle ? "color: var(--color-primary-dark);" : ""}>{item.title}</h3>
+                <p class="timeline__text">{item.text}</p>
+              </div>
             </div>
-            <div class="timeline__content card">
-              <h3 class="timeline__title">Inicio de Inscripciones</h3>
-              <p class="timeline__text">Apertura de pagos en el Banco de la Nación y registro de postulantes a través del portal web institucional para todas las modalidades.</p>
-            </div>
-          </div>
-          
-          <div class="timeline__item">
-            <div class="timeline__date">
-              <span class="timeline__day">05</span>
-              <span class="timeline__month">MAR</span>
-            </div>
-            <div class="timeline__content card">
-              <h3 class="timeline__title">Examen Extraordinario y CEPRE UNDAC</h3>
-              <p class="timeline__text">Evaluación exclusiva para primeros puestos, graduados, deportistas calificados, víctimas de terrorismo y postulantes CEPRE.</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <div class="timeline__date">
-              <span class="timeline__day">12</span>
-              <span class="timeline__month">MAR</span>
-            </div>
-            <div class="timeline__content card" style="border-left: 4px solid var(--color-primary);">
-              <h3 class="timeline__title">Cierre de Inscripciones (Ordinario)</h3>
-              <p class="timeline__text">Último día para el pago por derecho de examen de admisión ordinario y validación de expedientes.</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <div class="timeline__date">
-              <span class="timeline__day">22</span>
-              <span class="timeline__month">MAR</span>
-            </div>
-            <div class="timeline__content card" style="background: var(--color-primary-50); border-left: 4px solid var(--color-primary);">
-              <h3 class="timeline__title" style="color: var(--color-primary-dark);">Examen General de Admisión</h3>
-              <p class="timeline__text">Evaluación presencial modalidad Ordinaria. El ingreso a la Ciudad Universitaria será desde las 07:00 a.m. hasta las 09:00 a.m.</p>
-            </div>
-          </div>
-          
-          <div class="timeline__item">
-            <div class="timeline__date">
-              <span class="timeline__day">23</span>
-              <span class="timeline__month">MAR</span>
-            </div>
-            <div class="timeline__content card">
-              <h3 class="timeline__title">Publicación de Resultados</h3>
-              <p class="timeline__text">Publicación del cuadro de méritos y relación de ingresantes a través de nuestra página web y paneles informativos.</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
