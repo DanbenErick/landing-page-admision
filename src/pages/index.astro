@@ -147,79 +147,67 @@ import HeroSlider from '../components/HeroSlider.astro';
         <p class="section__subtitle section__subtitle--center">Conoce nuestros principales procesos de admisión y elige la modalidad que se adapte a tu perfil</p>
         
         <div class="grid grid--4">
-          <!-- Card 1 -->
-          <div class="card card--modality" style="padding: var(--space-4);">
-            <div class="card__body" style="padding-top: var(--space-4);">
-              <div style="width: 56px; height: 56px; background: var(--color-primary-50); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-primary); margin-bottom: var(--space-5);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-              </div>
-              <h3 class="card__title" style="font-size: 1.35rem;">Examen Ordinario</h3>
-              <p class="card__text" style="font-size: 0.95rem; margin-bottom: var(--space-5);">Dirigido a egresados de Educación Básica Regular (EBR) y Educación Básica Alternativa (EBA) a nivel nacional.</p>
-              <ul class="check-list" style="margin-top: auto;">
-                <li>Certificado original</li>
-                <li>DNI vigente</li>
-                <li>Voucher de pago BN</li>
+          <div class="card card--modality">
+            <div style="height: 6px; width: 100%; background: var(--color-primary-light);"></div>
+            <div class="card__body">
+              <h3 class="card__title">Examen Ordinario</h3>
+              <p class="card__text">Dirigido a egresados de Educación Básica Regular (EBR) y Educación Básica Alternativa (EBA) de instituciones a nivel nacional.</p>
+              <ul class="check-list">
+                <li>Certificado de estudios originales</li>
+                <li>DNI vigente (Copia y Original)</li>
+                <li>Voucher de pago Banco de la Nación</li>
               </ul>
             </div>
-            <div class="card__footer" style="padding-top: var(--space-2);">
-              <a href="/modalidades" class="btn btn--primary" style="width: 100%; border-radius: var(--radius-lg);">Ver detalles</a>
+            <div class="card__footer">
+              <a href="/modalidades" class="btn btn--outline" style="width: 100%;">Ver detalle completo</a>
             </div>
           </div>
 
-          <!-- Card 2 -->
-          <div class="card card--modality" style="padding: var(--space-4);">
-            <div class="card__body" style="padding-top: var(--space-4);">
-              <div style="width: 56px; height: 56px; background: var(--color-primary-50); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-primary); margin-bottom: var(--space-5);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              </div>
-              <h3 class="card__title" style="font-size: 1.35rem;">Primera Selección</h3>
-              <p class="card__text" style="font-size: 0.95rem; margin-bottom: var(--space-5);">Proceso exclusivo para estudiantes que se encuentren cursando el quinto año de secundaria en la región.</p>
-              <ul class="check-list" style="margin-top: auto;">
-                <li>Constancia de logros</li>
-                <li>Certificación regional</li>
-                <li>DNI vigente</li>
+          <div class="card card--modality">
+            <div style="height: 6px; width: 100%; background: var(--color-primary);"></div>
+            <div class="card__body">
+              <h3 class="card__title">Primera Selección (5tos)</h3>
+              <p class="card__text">Proceso exclusivo para estudiantes que se encuentren cursando el quinto año de educación secundaria en la región.</p>
+              <ul class="check-list">
+                <li>Requisitos del examen ordinario</li>
+                <li>Constancias o resoluciones específicas</li>
+                <li>Certificación que acredite la modalidad</li>
               </ul>
             </div>
-            <div class="card__footer" style="padding-top: var(--space-2);">
-              <a href="/modalidades" class="btn btn--primary" style="width: 100%; border-radius: var(--radius-lg);">Ver requisitos</a>
+            <div class="card__footer">
+              <a href="/modalidades" class="btn btn--outline" style="width: 100%;">Consultar requisitos</a>
             </div>
           </div>
 
-          <!-- Card 3 -->
-          <div class="card card--modality" style="padding: var(--space-4);">
-            <div class="card__body" style="padding-top: var(--space-4);">
-              <div style="width: 56px; height: 56px; background: var(--color-primary-50); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-primary); margin-bottom: var(--space-5);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-              </div>
-              <h3 class="card__title" style="font-size: 1.35rem;">CEPRE UNDAC</h3>
-              <p class="card__text" style="font-size: 0.95rem; margin-bottom: var(--space-5);">Ingreso directo para estudiantes matriculados que alcancen vacante por estricto orden de mérito.</p>
-              <ul class="check-list" style="margin-top: auto;">
-                <li>Matrícula en ciclo actual</li>
-                <li>Promedio aprobatorio</li>
-                <li>Sin cursos desaprobados</li>
+          <div class="card card--modality">
+            <div style="height: 6px; width: 100%; background: var(--color-primary-dark);"></div>
+            <div class="card__body">
+              <h3 class="card__title">Centro Preuniversitario (CEPRE)</h3>
+              <p class="card__text">Ingreso directo para los estudiantes matriculados en el CEPRE UNDAC que alcancen vacante por estricto orden de mérito acumulado.</p>
+              <ul class="check-list">
+                <li>Estar matriculado en ciclo actual</li>
+                <li>Promedio aprobatorio requerido</li>
+                <li>No tener cursos desaprobados</li>
               </ul>
             </div>
-            <div class="card__footer" style="padding-top: var(--space-2);">
-              <a href="/modalidades" class="btn btn--primary" style="width: 100%; border-radius: var(--radius-lg);">Más info</a>
+            <div class="card__footer">
+              <a href="/modalidades" class="btn btn--outline" style="width: 100%;">Más información</a>
             </div>
           </div>
 
-          <!-- Card 4 -->
-          <div class="card card--modality" style="padding: var(--space-4);">
-            <div class="card__body" style="padding-top: var(--space-4);">
-              <div style="width: 56px; height: 56px; background: var(--color-primary-50); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-primary); margin-bottom: var(--space-5);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-              </div>
-              <h3 class="card__title" style="font-size: 1.35rem;">Especiales</h3>
-              <p class="card__text" style="font-size: 0.95rem; margin-bottom: var(--space-5);">Traslados externos, titulados/graduados, personas con discapacidad y deportistas calificados.</p>
-              <ul class="check-list" style="margin-top: auto;">
-                <li>Resoluciones respectivas</li>
-                <li>Documentación original</li>
-                <li>Cumplimiento de ley</li>
+          <div class="card card--modality">
+            <div style="height: 6px; width: 100%; background: var(--color-primary);"></div>
+            <div class="card__body">
+              <h3 class="card__title">Modalidades Especiales</h3>
+              <p class="card__text">Traslados externos, titulados o graduados, personas con discapacidad y deportistas calificados.</p>
+              <ul class="check-list">
+                <li>Resoluciones o certificados</li>
+                <li>Documentación original legalizada</li>
+                <li>Cumplir la ley universitaria</li>
               </ul>
             </div>
-            <div class="card__footer" style="padding-top: var(--space-2);">
-              <a href="/modalidades" class="btn btn--primary" style="width: 100%; border-radius: var(--radius-lg);">Ver opciones</a>
+            <div class="card__footer">
+              <a href="/modalidades" class="btn btn--outline" style="width: 100%;">Ver opciones</a>
             </div>
           </div>
         </div>

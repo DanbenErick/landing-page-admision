@@ -347,9 +347,9 @@ select {
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-2xl);
-  border-color: rgba(13, 46, 110, 0.15);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+  border-color: rgba(13, 46, 110, 0.12);
 }
 
 .card__image {
@@ -1887,11 +1887,12 @@ select {
 /* Hero Admission */
 .hero-admission {
   position: relative;
-  min-height: 85vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
   overflow: hidden;
   color: var(--color-white);
+  padding: var(--space-12) 0;
 }
 
 .hero-admission__background {
@@ -1915,9 +1916,9 @@ select {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(13, 46, 110, 0.92);
+  background: rgba(13, 46, 110, 0.65);
   backdrop-filter: blur(2px);
-  z-index: -1;
+  z-index: 1;
 }
 
 .hero-admission__content {
@@ -1950,7 +1951,6 @@ select {
 
 .hero-admission__title span {
   color: var(--color-primary-light);
-  display: block;
   text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
