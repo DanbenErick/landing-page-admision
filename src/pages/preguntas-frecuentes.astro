@@ -1,0 +1,124 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import '../styles/global.css';
+
+const faqs = [
+  {
+    question: '¿Cómo me inscribo al examen de admisión?',
+    answer: 'Para inscribirte al examen de admisión debes acercarte a la oficina de Admisión ubicada en la Ciudad Universitaria de Yanacancha con los documentos requeridos (DNI, certificado de estudios, fotografías y pago por derecho de inscripción). También puedes realizar tu inscripción en línea a través del portal institucional durante el periodo de inscripción establecido en el cronograma.'
+  },
+  {
+    question: '¿Cuáles son los requisitos para postular?',
+    answer: 'Los requisitos generales son: DNI vigente, certificado de estudios de educación secundaria completa, 2 fotografías tamaño carnet actualizadas y el comprobante de pago por derecho de inscripción. Los requisitos específicos varían según la modalidad de ingreso. Te recomendamos revisar la sección de Modalidades para conocer los requisitos de cada una.'
+  },
+  {
+    question: '¿Dónde realizo el pago del derecho de admisión?',
+    answer: 'El pago por derecho de admisión se puede realizar en las ventanillas del Banco de la Nación a nivel nacional, indicando el código de la universidad. También puedes realizar el pago en la Tesorería de la universidad ubicada en la Ciudad Universitaria. El costo varía según la modalidad de ingreso.'
+  },
+  {
+    question: '¿Cuándo salen los resultados del examen?',
+    answer: 'Los resultados del examen de admisión se publican dentro de las 48 horas posteriores a la fecha del examen. Los resultados se publican en la página web institucional y en los paneles informativos de la Ciudad Universitaria. Los ingresantes son notificados por correo electrónico o teléfono.'
+  },
+  {
+    question: '¿Qué temas se evalúan en el examen de admisión?',
+    answer: 'El examen de admisión evalúa conocimientos en: Razonamiento Verbal, Razonamiento Matemático, Matemática (Aritmética, Álgebra, Geometría, Trigonometría), Ciencias y Humanidades. El temario detallado está disponible en la sección de Documentos.'
+  },
+  {
+    question: '¿Puedo postular a más de una carrera?',
+    answer: 'No, cada postulante solo puede inscribirse a una escuela profesional por proceso de admisión. En caso de no ingresar, podrá volver a postular en el siguiente proceso de admisión, pudiendo elegir la misma u otra escuela profesional.'
+  },
+  {
+    question: '¿Existe algún descuento en el pago de admisión?',
+    answer: 'Sí, existen descuentos para egresados de colegios estatales de la región Pasco y para postulantes con discapacidad acreditada. Los detalles de los descuentos se publican en cada convocatoria de admisión.'
+  },
+  {
+    question: '¿Qué pasa si no apruebo el examen de admisión?',
+    answer: 'Si no logras alcanzar la vacante en el proceso de admisión, puedes volver a postular en el siguiente proceso. No existe límite en el número de veces que un postulante puede participar. También puedes optar por prepararte en el CEPRE UNDAC para mejorar tus posibilidades de ingreso.'
+  }
+];
+---
+
+<Layout
+  title="Preguntas Frecuentes | Admisión UNDAC"
+  description="Resuelve tus dudas sobre el proceso de admisión UNDAC: inscripción, requisitos, pagos, resultados y más."
+  keywords="preguntas frecuentes, FAQ, admisión, inscripción, requisitos, UNDAC"
+>
+  <Header slot="header" />
+
+  <PageHero title="Preguntas Frecuentes" breadcrumb="Preguntas Frecuentes" />
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title section__title--center">Resuelve tus dudas</h2>
+      <p class="section__subtitle section__subtitle--center">Encuentra respuestas a las preguntas más comunes sobre el proceso de admisión</p>
+      <div class="accordion" data-reveal>
+        {faqs.map((faq, i) => (
+          <div class="accordion__item" data-accordion>
+            <button
+              class="accordion__header"
+              aria-expanded="false"
+              aria-controls={`faq-${i}`}
+            >
+              <span>{faq.question}</span>
+              <span class="accordion__icon">+</span>
+            </button>
+            <div class="accordion__body" id={`faq-${i}`} role="region">
+              <div class="accordion__content">{faq.answer}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" data-reveal>
+    <div class="container">
+      <div class="cta-block">
+        <div class="cta-block__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </div>
+        <h2 class="cta-block__title">¿Aún tienes dudas?</h2>
+        <p class="cta-block__text">
+          No dudes en contactarnos, estamos para ayudarte en todo tu proceso de postulación.
+        </p>
+        <a href="/contacto" class="btn btn--white btn--lg">Contáctanos</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<script>
+  document.querySelectorAll('[data-accordion]').forEach(item => {
+    const header = item.querySelector('.accordion__header');
+    const body = item.querySelector('.accordion__body') as HTMLElement;
+    const content = body?.querySelector('.accordion__content') as HTMLElement;
+
+    header?.addEventListener('click', () => {
+      const isActive = item.classList.toggle('active');
+      header.setAttribute('aria-expanded', String(isActive));
+
+      if (isActive && content) {
+        body.style.maxHeight = content.scrollHeight + 'px';
+      } else {
+        body.style.maxHeight = '0';
+      }
+
+      // Close other items
+      document.querySelectorAll('[data-accordion]').forEach(other => {
+        if (other !== item && other.classList.contains('active')) {
+          other.classList.remove('active');
+          const otherHeader = other.querySelector('.accordion__header');
+          const otherBody = other.querySelector('.accordion__body') as HTMLElement;
+          otherHeader?.setAttribute('aria-expanded', 'false');
+          if (otherBody) otherBody.style.maxHeight = '0';
+        }
+      });
+    });
+  });
+</script>

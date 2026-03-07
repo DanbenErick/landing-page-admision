@@ -1,0 +1,77 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/', label: 'Inicio' },
+  { href: '/modalidades', label: 'Modalidades' },
+  { href: '/escuelas-profesionales', label: 'Carreras' },
+  { href: '/documentos', label: 'Documentos' },
+  { href: '/noticias', label: 'Noticias' },
+  { href: '/preguntas-frecuentes', label: 'FAQ' },
+  { href: '/contacto', label: 'Contacto' },
+];
+---
+
+<header class="header" id="header" role="banner">
+  <div class="header__inner">
+    <a href="/" class="header__brand" aria-label="Ir al inicio">
+      <img src="/img/logo.jpg" alt="Dirección de Admisión UNDAC" class="header__logo" width="48" height="48" />
+      <div class="header__title">
+        Admisión UNDAC
+      </div>
+    </a>
+
+    <nav class="nav" id="nav-menu" role="navigation" aria-label="Menú principal">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class={`nav__link ${currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href)) ? 'active' : ''}`}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <button
+      class="hamburger"
+      id="hamburger-btn"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="nav-menu"
+    >
+      <span class="hamburger__line"></span>
+      <span class="hamburger__line"></span>
+      <span class="hamburger__line"></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const hamburger = document.getElementById('hamburger-btn');
+  const navMenu = document.getElementById('nav-menu');
+  const header = document.getElementById('header');
+
+  hamburger?.addEventListener('click', () => {
+    const isActive = hamburger.classList.toggle('active');
+    navMenu?.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', String(isActive));
+  });
+
+  // Close on link click
+  navMenu?.querySelectorAll('.nav__link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger?.classList.remove('active');
+      navMenu?.classList.remove('active');
+      hamburger?.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Sticky shadow on scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  });
+</script>

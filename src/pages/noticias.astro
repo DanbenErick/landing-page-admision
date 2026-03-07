@@ -1,0 +1,117 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import '../styles/global.css';
+
+const noticias = [
+  {
+    image: '/img/news-1.jpg',
+    tag: 'Admisión',
+    date: '15 de marzo, 2026',
+    title: 'Convocatoria Examen de Admisión Extraordinario 2026-II',
+    summary: 'Se convoca al examen de admisión extraordinario 2026-II para todas las escuelas profesionales de la UNDAC. Las inscripciones están abiertas hasta el 30 de marzo.',
+    content: 'La Universidad Nacional Daniel Alcides Carrión convoca a todos los egresados de educación secundaria a participar en el examen de admisión extraordinario 2026-II. Este proceso permitirá el ingreso a las diversas escuelas profesionales que ofrece nuestra casa de estudios. Las inscripciones se realizan de manera presencial en la oficina de admisión o de manera virtual a través del portal institucional. Se recomienda a los postulantes revisar el prospecto de admisión y el cronograma de actividades disponibles en la sección de documentos.'
+  },
+  {
+    image: '/img/news-2.jpg',
+    tag: 'Resultados',
+    date: '10 de marzo, 2026',
+    title: 'Resultados del Examen de Admisión Ordinario 2026-I',
+    summary: 'Ya están disponibles los resultados del examen de admisión ordinario 2026-I. Consulta los cuadros de mérito por escuela profesional.',
+    content: 'La Dirección de Admisión publica los resultados oficiales del examen de admisión ordinario 2026-I. Los postulantes pueden consultar los cuadros de mérito por escuela profesional a través de la página web institucional. Los ingresantes deberán realizar su matrícula en las fechas establecidas en el cronograma académico. Se felicita a todos los nuevos estudiantes que formarán parte de la familia UNDAC.'
+  },
+  {
+    image: '/img/news-3.jpg',
+    tag: 'Evento',
+    date: '5 de marzo, 2026',
+    title: 'Simulacro Nacional de Examen de Admisión',
+    summary: 'La UNDAC organiza un simulacro nacional de examen de admisión gratuito para todos los postulantes interesados.',
+    content: 'Con el objetivo de preparar a los futuros postulantes, la UNDAC organiza un simulacro nacional de examen de admisión de carácter gratuito. Este evento se realizará en las instalaciones de la Ciudad Universitaria de Yanacancha. Los participantes recibirán un informe detallado de sus resultados y recomendaciones para mejorar su preparación.'
+  },
+  {
+    image: '/img/news-1.jpg',
+    tag: 'CEPRE',
+    date: '1 de marzo, 2026',
+    title: 'Inicio del Nuevo Ciclo CEPRE UNDAC 2026',
+    summary: 'Se apertura las matrículas para el nuevo ciclo del Centro Preuniversitario de la UNDAC. Clases presenciales y virtuales.',
+    content: 'El Centro Preuniversitario de la UNDAC anuncia el inicio de matrículas para el nuevo ciclo académico 2026. Los estudiantes podrán elegir entre la modalidad presencial y virtual. El CEPRE UNDAC ofrece una preparación integral que incluye todas las áreas evaluadas en el examen de admisión, con docentes altamente calificados y material didáctico actualizado.'
+  },
+  {
+    image: '/img/news-2.jpg',
+    tag: 'Institucional',
+    date: '25 de febrero, 2026',
+    title: 'UNDAC Obtiene Licenciamiento Institucional',
+    summary: 'La SUNEDU otorga el licenciamiento institucional a la UNDAC, ratificando las condiciones básicas de calidad.',
+    content: 'La Superintendencia Nacional de Educación Superior Universitaria (SUNEDU) ha otorgado el licenciamiento institucional a la Universidad Nacional Daniel Alcides Carrión por un periodo de 6 años. Este logro ratifica que la UNDAC cumple con las condiciones básicas de calidad establecidas en la Ley Universitaria, fortaleciendo su compromiso con la formación de profesionales competentes.'
+  }
+];
+---
+
+<Layout
+  title="Noticias | Admisión UNDAC"
+  description="Lee las últimas noticias sobre admisión en la UNDAC: convocatorias, resultados, simulacros y eventos institucionales."
+  keywords="noticias, admisión, UNDAC, convocatoria, resultados, examen"
+>
+  <Header slot="header" />
+
+  <PageHero title="Noticias" breadcrumb="Noticias" />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        {noticias.map((noticia, i) => (
+          <article class="card" data-reveal>
+            <img src={noticia.image} alt={noticia.title} class="card__image" loading="lazy" />
+            <div class="card__body">
+              <span class="card__tag">{noticia.tag}</span>
+              <div class="card__date" style="display: flex; align-items: center; gap: 4px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                {noticia.date}
+              </div>
+              <h2 class="card__title">{noticia.title}</h2>
+              <p class="card__text">{noticia.summary}</p>
+            </div>
+            <div class="card__footer">
+              <button class="btn btn--outline" onclick={`document.getElementById('modal-${i}').showModal()`}>Leer más</button>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- News Modals -->
+  {noticias.map((noticia, i) => (
+    <dialog id={`modal-${i}`} style="max-width: 700px; width: 90%; border: none; border-radius: var(--radius-xl); padding: 0; box-shadow: var(--shadow-2xl);">
+      <div style="padding: var(--space-8);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-4);">
+          <span class="card__tag">{noticia.tag}</span>
+          <button onclick={`document.getElementById('modal-${i}').close()`} style="font-size: 1.5rem; cursor: pointer; background: none; border: none; color: var(--color-gray-500);">&times;</button>
+        </div>
+        <h2 style="font-size: var(--font-size-2xl); font-weight: 800; color: var(--color-gray-900); margin-bottom: var(--space-3);">{noticia.title}</h2>
+        <div class="card__date" style="margin-bottom: var(--space-4); display: flex; align-items: center; gap: 4px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          {noticia.date}
+        </div>
+        <img src={noticia.image} alt={noticia.title} style="width: 100%; height: 250px; object-fit: cover; border-radius: var(--radius-md); margin-bottom: var(--space-4);" />
+        <p style="font-size: var(--font-size-base); color: var(--color-gray-700); line-height: 1.8;">{noticia.content}</p>
+        <div class="news-share" style="margin-top: var(--space-6);">
+          <span class="news-share__label">Compartir:</span>
+          <a href="#" class="news-share__btn" aria-label="Compartir en Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+          <a href="#" class="news-share__btn" aria-label="Compartir en Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+          </a>
+          <a href="#" class="news-share__btn" aria-label="Compartir por WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          </a>
+        </div>
+      </div>
+    </dialog>
+  ))}
+
+  <Footer slot="footer" />
+</Layout>

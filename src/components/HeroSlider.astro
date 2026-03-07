@@ -1,0 +1,94 @@
+---
+const slides = [
+  {
+    image: '/img/banner-admision.jpg',
+    title: 'Examen de Admisión UNDAC 2026',
+    text: 'Inscríbete en el próximo proceso de admisión y forma parte de la mejor universidad de la región Pasco.',
+    btn: 'Más Información',
+    link: '/modalidades'
+  },
+  {
+    image: '/img/banner-convocatoria.jpg',
+    title: 'Convocatoria Proceso de Admisión',
+    text: 'Se apertura el proceso de admisión para todas las escuelas profesionales. Revisa las modalidades disponibles.',
+    btn: 'Ver Modalidades',
+    link: '/modalidades'
+  },
+  {
+    image: '/img/banner-resultados.jpg',
+    title: 'Resultados de Admisión',
+    text: 'Consulta los resultados del último examen de admisión y verifica tu ingreso a la UNDAC.',
+    btn: 'Ver Resultados',
+    link: '/noticias'
+  },
+  {
+    image: '/img/banner-simulacro.jpg',
+    title: 'Simulacro de Examen de Admisión',
+    text: 'Prepárate con nuestros simulacros y mejora tus posibilidades de ingreso.',
+    btn: 'Más Detalles',
+    link: '/noticias'
+  }
+];
+---
+
+<section class="hero-slider" id="hero-slider" aria-label="Slider principal">
+  {slides.map((slide, i) => (
+    <div class={`hero-slider__slide ${i === 0 ? 'active' : ''}`} data-slide={i}>
+      <img src={slide.image} alt={slide.title} class="hero-slider__bg" loading={i === 0 ? 'eager' : 'lazy'} />
+      <div class="hero-slider__content">
+        <h2 class="hero-slider__title">{slide.title}</h2>
+        <p class="hero-slider__text">{slide.text}</p>
+        <a href={slide.link} class="btn btn--white btn--lg">{slide.btn}</a>
+      </div>
+    </div>
+  ))}
+
+  <button class="hero-slider__arrow hero-slider__arrow--prev" aria-label="Anterior" id="slider-prev">❮</button>
+  <button class="hero-slider__arrow hero-slider__arrow--next" aria-label="Siguiente" id="slider-next">❯</button>
+
+  <div class="hero-slider__controls" id="slider-dots">
+    {slides.map((_, i) => (
+      <button class={`hero-slider__dot ${i === 0 ? 'active' : ''}`} data-dot={i} aria-label={`Ir al banner ${i + 1}`}></button>
+    ))}
+  </div>
+</section>
+
+<script>
+  const slider = document.getElementById('hero-slider');
+  const slides = slider?.querySelectorAll('.hero-slider__slide');
+  const dots = slider?.querySelectorAll('.hero-slider__dot');
+  const prevBtn = document.getElementById('slider-prev');
+  const nextBtn = document.getElementById('slider-next');
+  let current = 0;
+  let interval: ReturnType<typeof setInterval>;
+
+  function goTo(index: number) {
+    if (!slides || !dots) return;
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    current = (index + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  function startAuto() {
+    interval = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  function stopAuto() {
+    clearInterval(interval);
+  }
+
+  prevBtn?.addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
+  nextBtn?.addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
+
+  dots?.forEach(dot => {
+    dot.addEventListener('click', () => {
+      stopAuto();
+      goTo(Number((dot as HTMLElement).dataset.dot));
+      startAuto();
+    });
+  });
+
+  startAuto();
+</script>

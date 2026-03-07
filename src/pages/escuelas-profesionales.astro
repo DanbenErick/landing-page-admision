@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import '../styles/global.css';
+
+const areas = [
+  {
+    name: 'Área 1: Ciencias de la Salud',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>',
+    careers: [
+      { name: 'Medicina Humana (Pasco)', desc: 'Liderazgo en la resolución integral de problemas de salud, investigación y bienestar humano pleno.' },
+      { name: 'Odontología (Pasco)', desc: 'Prevención, diagnóstico, tratamiento y rehabilitación integral de enfermedades del sistema estomatognático.' },
+      { name: 'Enfermería (Pasco)', desc: 'Cuidado humano, integral y ético de la salud de las personas, familias y comunidades.' },
+      { name: 'Obstetricia (Pasco)', desc: 'Atención especializada, científica y humanística de la salud reproductiva de la mujer.' },
+      { name: 'Enfermería (Tarma)', desc: 'Cuidado humano, integral y ético de la salud de las personas, familias y comunidades.' },
+      { name: 'Obstetricia (Tarma)', desc: 'Atención especializada, científica y humanística de la salud reproductiva de la mujer.' }
+    ]
+  },
+  {
+    name: 'Área 2: Ingenierías',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
+    careers: [
+      { name: 'Ingeniería de Minas (Pasco)', desc: 'Responsabilidad y tecnología óptima para el aprovechamiento integral de recursos minerales.' },
+      { name: 'Ingeniería Metalúrgica (Pasco)', desc: 'Procesamiento, extracción y transformación de minerales y metales.' },
+      { name: 'Ingeniería Geológica (Pasco)', desc: 'Estudio de la tierra, sus formaciones y exploración de recursos naturales vitales.' },
+      { name: 'Ingeniería de Sistemas y Computación (Pasco)', desc: 'Desarrollo de software avanzado, inteligencia artificial y sistemas de información.' },
+      { name: 'Ingeniería Civil (Pasco)', desc: 'Diseño estructural, construcción y fiscalización de infraestructura e ingeniería vial.' },
+      { name: 'Ingeniería Ambiental (Pasco)', desc: 'Gestión, investigación y protección del medio ambiente para el desarrollo sostenible.' },
+      { name: 'Ingeniería Ambiental (Oxapampa)', desc: 'Gestión, investigación y protección del medio ambiente para el desarrollo sostenible.' }
+    ]
+  },
+  {
+    name: 'Área 3: Derecho y Ciencias de la Comunicación',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
+    careers: [
+      { name: 'Derecho y Ciencias Políticas (Pasco)', desc: 'Sólida formación jurídica, defensa ética de valores democráticos y resolución de conflictos sociales.' },
+      { name: 'Ciencias de la Comunicación (Pasco)', desc: 'Periodismo contemporáneo, producción audiovisual e investigación en comunicación social.' },
+      { name: 'Ciencias de la Comunicación (La Merced)', desc: 'Periodismo contemporáneo, producción audiovisual e investigación en comunicación social.' }
+    ]
+  },
+  {
+    name: 'Área 4: Ciencias Administrativas, Contables y Económicas',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>',
+    careers: [
+      { name: 'Administración (Pasco)', desc: 'Liderazgo empresarial, planificación estratégica e innovación para el mundo corporativo.' },
+      { name: 'Administración (Oxapampa)', desc: 'Liderazgo empresarial, planificación estratégica e innovación para el mundo corporativo.' },
+      { name: 'Contabilidad (Pasco)', desc: 'Gestión de la información financiera, tributaria y auditoría para entidades organizacionales.' },
+      { name: 'Contabilidad (Constitución)', desc: 'Gestión de la información financiera, tributaria y auditoría para entidades organizacionales.' },
+      { name: 'Economía (Pasco)', desc: 'Análisis económico, diseño de políticas públicas, finanzas y evaluación de proyectos.' }
+    ]
+  },
+  {
+    name: 'Área 5: Ciencias de la Educación',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
+    careers: [
+      { name: 'Educación Inicial (Pasco)', desc: 'Formación de docentes especializados en la primera infancia y su desarrollo integral.' },
+      { name: 'Educación Primaria (Pasco)', desc: 'Formación pedagógica integral para la educación de nivel primario.' },
+      { name: 'Educación Primaria (Yanahuanca)', desc: 'Formación pedagógica integral para la educación de nivel primario.' },
+      { name: 'Educación Primaria (Oxapampa)', desc: 'Formación pedagógica integral para la educación de nivel primario.' },
+      { name: 'Comunicación y Literatura (Pasco)', desc: 'Formación de educadores en el área de la lengua, literatura y ciencias de la comunicación.' },
+      { name: 'Historia, Ciencias Sociales y Turismo (Pasco)', desc: 'Docencia en ciencias sociales integrando aspectos históricos y desarrollo turístico.' },
+      { name: 'Matemática y Física (Pasco)', desc: 'Especialización docente en el razonamiento lógico-matemático y las ciencias exactas.' },
+      { name: 'Biología y Química (Pasco)', desc: 'Especialización pedagógica en ciencias naturales y procesos biológicos.' },
+      { name: 'Ciencias Sociales, Filosofía y Psicología (Pasco)', desc: 'Docencia orientada a la psicología educativa, humanidades y desarrollo social.' },
+      { name: 'Lenguas Extranjeras: Inglés - Francés (Pasco)', desc: 'Formación de profesionales en la enseñanza y dominio de idiomas modernos.' },
+      { name: 'Computación e Informática (Pasco)', desc: 'Formación docente en herramientas tecnológicas y ciencias de la computación.' },
+      { name: 'Computación e Informática (Yanahuanca)', desc: 'Formación docente en herramientas tecnológicas y ciencias de la computación.' }
+    ]
+  },
+  {
+    name: 'Área 6: Ciencias Agropecuarias',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
+    careers: [
+      { name: 'Agronomía (Pasco)', desc: 'Generación y aplicación de sistemas de producción agrícola competitivos y sustentables.' },
+      { name: 'Agronomía (Yanahuanca)', desc: 'Generación y aplicación de sistemas de producción agrícola competitivos y sustentables.' },
+      { name: 'Agronomía (Paucartambo)', desc: 'Generación y aplicación de sistemas de producción agrícola competitivos y sustentables.' },
+      { name: 'Agronomía (La Merced)', desc: 'Generación y aplicación de sistemas de producción agrícola competitivos y sustentables.' },
+      { name: 'Agronomía (Oxapampa)', desc: 'Generación y aplicación de sistemas de producción agrícola competitivos y sustentables.' },
+      { name: 'Zootecnia (Pasco)', desc: 'Mejora biológica, sanidad y manejo de la producción animal de manera sostenible.' },
+      { name: 'Zootecnia (Oxapampa)', desc: 'Mejora biológica, sanidad y manejo de la producción animal de manera sostenible.' },
+      { name: 'Industrias Alimentarias (La Merced)', desc: 'Ciencia aplicada a la tecnología, calidad e innovación en el proceso de los alimentos.' }
+    ]
+  }
+];
+---
+
+<Layout
+  title="Escuelas Profesionales | Admisión UNDAC"
+  description="Conoce las escuelas profesionales de la UNDAC agrupadas por áreas: Ingenierías, Salud, Empresariales y Ciencias Sociales."
+  keywords="escuelas profesionales, carreras, UNDAC, ingeniería, medicina, derecho, contabilidad"
+>
+  <Header slot="header" />
+
+  <PageHero title="Escuelas Profesionales" breadcrumb="Escuelas Profesionales" />
+
+  <section class="section">
+    <div class="container">
+      {areas.map(area => (
+        <div class="area-group" data-reveal>
+          <h2 class="area-group__title">
+            <span set:html={area.icon}></span>
+            {area.name}
+          </h2>
+          <div class="career-card-grid">
+            {area.careers.map(career => (
+              <div class="career-box">
+                <div class="career-box__title">{career.name}</div>
+                <p class="career-box__desc">{career.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
