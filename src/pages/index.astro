@@ -1,7 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 import HeroSlider from '../components/HeroSlider.astro';
-import cronograma from '../data/cronograma.json';
+const cronograma = [
+  { day: "15", month: "ENE", title: "Inicio de Inscripciones", text: "Apertura de pagos en el Banco de la Nación y registro de postulantes a través del portal web institucional para todas las modalidades.", highlight: true, primaryStyle: true, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>` },
+  { day: "05", month: "MAR", title: "Examen Extraordinario y CEPRE UNDAC", text: "Evaluación exclusiva para primeros puestos, graduados, deportistas calificados, víctimas de terrorismo y postulantes CEPRE.", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>` },
+  { day: "12", month: "MAR", title: "Cierre de Inscripciones (Ordinario)", text: "Último día para el pago por derecho de examen de admisión ordinario y validación de expedientes.", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>` },
+  { day: "22", month: "MAR", title: "Examen General de Admisión", text: "Evaluación presencial modalidad Ordinaria. El ingreso a la Ciudad Universitaria será desde las 07:00 a.m. hasta las 09:00 a.m.", highlight: true, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>` },
+  { day: "23", month: "MAR", title: "Publicación de Resultados", text: "Publicación del cuadro de méritos y relación de ingresantes a través de nuestra página web y paneles informativos.", primaryStyle: true, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>` }
+];
 ---
 
 <Layout 
@@ -18,14 +25,99 @@ import cronograma from '../data/cronograma.json';
       </div>
       <div class="container hero-admission__content">
         <div class="hero-admission__badge">Proceso de Admisión 2026-I</div>
-        <h1 class="hero-admission__title">Tu futuro empieza en la <span>UNDAC</span></h1>
-        <p class="hero-admission__subtitle">Únete a la universidad licenciada más importante de la región central del país. Excelencia académica al servicio de la sociedad.</p>
+        <div style="min-height: 110px; display: flex; align-items: flex-end; margin-bottom: var(--space-4);">
+          <h1 class="hero-admission__title" style="margin-bottom: 0;"><span id="hero-title-text"></span></h1>
+        </div>
+        <div style="min-height: 80px; margin-bottom: var(--space-8);">
+          <p class="hero-admission__subtitle" style="margin-bottom: 0; opacity: 1;"><span id="hero-subtitle-text"></span></p>
+        </div>
         <div class="hero-admission__actions">
-          <a href="#cronograma" class="btn btn--primary btn--lg">Ver Cronograma</a>
-          <a href="/modalidades" class="btn btn--outline btn--lg" style="color: white; border-color: rgba(255,255,255,0.5);">Requisitos de Inscripción</a>
+          <a href="#cronograma" class="btn btn--primary btn--large">Ver Cronograma</a>
+          <a href="/modalidades" class="btn btn--outline btn--outline-white btn--large" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3);">Requisitos de Inscripción</a>
         </div>
       </div>
     </section>
+
+    <!-- Professional Typewriter Animation via Typed.js -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const titleEl = document.getElementById('hero-title-text');
+        
+        if (titleEl) {
+          new Typed('#hero-title-text', {
+            strings: ['Tu futuro empieza en la <span class="undac-badge"><span class="undac-un">UN</span><span class="undac-da">DA</span><span class="undac-c">C</span></span>'],
+            typeSpeed: 50,
+            backSpeed: 0,
+            showCursor: true,
+            cursorChar: '|',
+            contentType: 'html',
+            onComplete: (self) => {
+              // Hide title cursor after completion
+              const titleCursor = document.querySelector('.typed-cursor');
+              if (titleCursor) titleCursor.style.opacity = '0';
+              
+              // Start subtitle typing sequence
+              new Typed('#hero-subtitle-text', {
+                strings: ['Únete a la universidad licenciada más importante de la región central del país. Excelencia académica al servicio de la sociedad.'],
+                typeSpeed: 25,
+                showCursor: true,
+                cursorChar: '|'
+              });
+            }
+          });
+        }
+      });
+    </script>
+
+    <style is:global>
+      /* Standout UNDAC Container Badge */
+      .undac-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        padding: 4px 16px;
+        margin-left: 4px;
+        border-radius: 12px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Specific colors per letter/syllable */
+      .undac-un {
+        color: #0d6efd; /* Blue */
+        text-shadow: 0 2px 10px rgba(13, 110, 253, 0.6);
+      }
+      
+      .undac-da {
+        color: #FFFFFF; /* White */
+        text-shadow: 0 2px 10px rgba(255, 255, 255, 0.4);
+      }
+
+      .undac-c {
+        color: #E3000F; /* Red */
+        text-shadow: 0 2px 10px rgba(227, 0, 15, 0.6);
+      }
+
+      /* Premium Typed.js Cursor */
+      .typed-cursor {
+        font-weight: 300;
+        color: var(--color-white);
+        animation: typedjsBlink 0.9s infinite;
+        -webkit-animation: typedjsBlink 0.9s infinite;
+      }
+      @keyframes typedjsBlink {
+        50% { opacity: 0.0; }
+      }
+      @-webkit-keyframes typedjsBlink {
+        0% { opacity: 1; }
+        50% { opacity: 0.0; }
+        100% { opacity: 1; }
+      }
+    </style>
 
     <!-- Quick Access Resources (Prospectus, Syllabus, Vacancies) -->
     <section class="section" style="padding-top: 0; margin-top: -60px; position: relative; z-index: 10;" data-reveal>
@@ -89,9 +181,21 @@ import cronograma from '../data/cronograma.json';
                 <span class="timeline__day">{item.day}</span>
                 <span class="timeline__month">{item.month}</span>
               </div>
-              <div class="timeline__content card" style={item.highlight ? (item.primaryStyle ? "background: var(--color-primary-50); border-left: 4px solid var(--color-primary);" : "border-left: 4px solid var(--color-primary);") : ""}>
-                <h3 class="timeline__title" style={item.primaryStyle ? "color: var(--color-primary-dark);" : ""}>{item.title}</h3>
-                <p class="timeline__text">{item.text}</p>
+              <div class="timeline__content card" style={
+                item.highlight 
+                  ? (item.primaryStyle 
+                      ? "background: var(--color-primary-50); border-left: 5px solid var(--color-primary); box-shadow: 0 10px 25px rgba(26, 71, 165, 0.1);" 
+                      : "background: rgba(255,165,0,0.05); border-left: 5px solid var(--color-accent-dark); box-shadow: 0 10px 25px rgba(249, 168, 37, 0.1);"
+                    ) 
+                  : "border-left: 4px solid var(--color-gray-300);"
+              }>
+                <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-2);">
+                  <div style={"display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0; " + (item.primaryStyle ? "background: var(--color-primary); color: white;" : item.highlight ? "background: var(--color-accent-dark); color: white;" : "background: var(--color-secondary-50); color: var(--color-secondary-dark);")} set:html={item.icon}></div>
+                  <h3 class="timeline__title" style={"margin: 0; " + (item.primaryStyle ? "color: var(--color-primary-dark); font-weight: 800;" : item.highlight ? "color: var(--color-accent-dark); font-weight: 800;" : "color: var(--color-secondary-dark);")}>
+                    {item.title}
+                  </h3>
+                </div>
+                <p class="timeline__text" style="font-size: var(--font-size-md); color: var(--color-gray-700); line-height: 1.6; padding-left: 36px;">{item.text}</p>
               </div>
             </div>
           ))}
@@ -106,15 +210,18 @@ import cronograma from '../data/cronograma.json';
         <p class="section__subtitle section__subtitle--center">Conoce nuestros principales procesos de admisión y elige la modalidad que se adapte a tu perfil</p>
         
         <div class="grid grid--4">
-          <div class="card card--modality">
-            <div style="height: 6px; width: 100%; background: var(--color-primary-light);"></div>
+          <!-- Examen Ordinario -->
+          <div class="card card--modality" style="border-top: 4px solid var(--color-primary-light); padding-top: var(--space-2);">
             <div class="card__body">
+              <div style="background: var(--color-primary-50); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-primary-light); margin-bottom: var(--space-4);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              </div>
               <h3 class="card__title">Examen Ordinario</h3>
               <p class="card__text">Dirigido a egresados de Educación Básica Regular (EBR) y Educación Básica Alternativa (EBA) de instituciones a nivel nacional.</p>
               <ul class="check-list">
                 <li>Certificado de estudios originales</li>
                 <li>DNI vigente (Copia y Original)</li>
-                <li>Voucher de pago Banco de la Nación</li>
+                <li>Voucher Banco de la Nación</li>
               </ul>
             </div>
             <div class="card__footer">
@@ -122,15 +229,18 @@ import cronograma from '../data/cronograma.json';
             </div>
           </div>
 
-          <div class="card card--modality">
-            <div style="height: 6px; width: 100%; background: var(--color-primary);"></div>
+          <!-- Primera Selección -->
+          <div class="card card--modality" style="border-top: 4px solid var(--color-primary); padding-top: var(--space-2);">
             <div class="card__body">
+              <div style="background: var(--color-primary-50); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-primary); margin-bottom: var(--space-4);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              </div>
               <h3 class="card__title">Primera Selección (5tos)</h3>
               <p class="card__text">Proceso exclusivo para estudiantes que se encuentren cursando el quinto año de educación secundaria en la región.</p>
               <ul class="check-list">
-                <li>Requisitos del examen ordinario</li>
-                <li>Constancias o resoluciones específicas</li>
-                <li>Certificación que acredite la modalidad</li>
+                <li>Requisitos examen ordinario</li>
+                <li>Constancias específicas</li>
+                <li>Acreditación de modalidad</li>
               </ul>
             </div>
             <div class="card__footer">
@@ -138,15 +248,18 @@ import cronograma from '../data/cronograma.json';
             </div>
           </div>
 
-          <div class="card card--modality">
-            <div style="height: 6px; width: 100%; background: var(--color-primary-dark);"></div>
+          <!-- CEPRE -->
+          <div class="card card--modality" style="border-top: 4px solid var(--color-primary-dark); padding-top: var(--space-2);">
             <div class="card__body">
-              <h3 class="card__title">Centro Preuniversitario (CEPRE)</h3>
-              <p class="card__text">Ingreso directo para los estudiantes matriculados en el CEPRE UNDAC que alcancen vacante por estricto orden de mérito acumulado.</p>
+              <div style="background: var(--color-primary-50); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-primary-dark); margin-bottom: var(--space-4);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              </div>
+              <h3 class="card__title">Centro Pre CEPRE</h3>
+              <p class="card__text">Ingreso directo para matriculados en el CEPRE UNDAC que alcancen vacante por estricto orden de mérito acumulado.</p>
               <ul class="check-list">
-                <li>Estar matriculado en ciclo actual</li>
-                <li>Promedio aprobatorio requerido</li>
-                <li>No tener cursos desaprobados</li>
+                <li>Matrícula en ciclo actual</li>
+                <li>Promedio aprobatorio</li>
+                <li>Sin cursos desaprobados</li>
               </ul>
             </div>
             <div class="card__footer">
@@ -154,15 +267,18 @@ import cronograma from '../data/cronograma.json';
             </div>
           </div>
 
-          <div class="card card--modality">
-            <div style="height: 6px; width: 100%; background: var(--color-primary);"></div>
+          <!-- Especiales -->
+          <div class="card card--modality" style="border-top: 4px solid var(--color-accent-dark); padding-top: var(--space-2);">
             <div class="card__body">
+              <div style="background: rgba(249, 168, 37, 0.1); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-accent-dark); margin-bottom: var(--space-4);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              </div>
               <h3 class="card__title">Modalidades Especiales</h3>
-              <p class="card__text">Traslados externos, titulados o graduados, personas con discapacidad y deportistas calificados.</p>
+              <p class="card__text">Traslados externos, graduados, personas con discapacidad y deportistas calificados de alto rendimiento.</p>
               <ul class="check-list">
-                <li>Resoluciones o certificados</li>
-                <li>Documentación original legalizada</li>
-                <li>Cumplir la ley universitaria</li>
+                <li>Resoluciones / certificados</li>
+                <li>Documentación legalizada</li>
+                <li>Ley universitaria vigente</li>
               </ul>
             </div>
             <div class="card__footer">
@@ -172,46 +288,6 @@ import cronograma from '../data/cronograma.json';
         </div>
       </div>
     </section>
-
-    <!-- Essential Links / Contact -->
-    <section class="section section--primary" data-reveal style="position: relative; overflow: hidden; padding-top: var(--space-16); padding-bottom: var(--space-16);">
-      <!-- Subtle background pattern -->
-      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.05; background-color: transparent; background-size: 20px 20px; z-index: 0;"></div>
-      
-      <div class="container" style="position: relative; z-index: 1;">
-        <div class="grid grid--2" style="align-items: center; gap: var(--space-12);">
-          
-          <!-- Text Content -->
-          <div>
-            <h2 class="section__title" style="color: white; font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.1; margin-bottom: var(--space-4); letter-spacing: -1px;">Oficina de Admisión</h2>
-            <p style="font-size: var(--font-size-lg); opacity: 0.9; margin-bottom: var(--space-8); line-height: 1.7; max-width: 500px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
-              El equipo de la Dirección General de Admisión está listo para guiarte en cada paso de tu postulación.
-            </p>
-            
-            <div style="display: flex; flex-direction: column; gap: var(--space-4);">
-              <!-- Phone Card -->
-              <div class="contact-card" style="display: flex; align-items: center; gap: var(--space-5); background: rgba(255,255,255,0.08); padding: var(--space-5); border-radius: var(--radius-xl); border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: fit-content; margin: 0;">
-                <div style="background: white; flex-shrink: 0; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-primary-dark); box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                </div>
-                <div>
-                  <div style="font-size: var(--font-size-xs); opacity: 0.8; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">Atención Telefónica</div>
-                  <div style="font-size: var(--font-size-2xl); font-weight: 900; letter-spacing: -0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.3); line-height: 1.2; margin: 2px 0;">(063) 421000</div>
-                  <div style="font-size: var(--font-size-sm); opacity: 0.9; font-weight: 500;">Anexo 104</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Image/Logo Content -->
-          <div style="display: flex; justify-content: center; position: relative;">
-             <!-- Decorative glowing orbit behind the logo -->
-             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; height: 450px; background-color: rgba(255,255,255,0.05); border-radius: 50%; pointer-events: none;"></div>
-             <img src="/img/logo.jpg" alt="Logo Admisión UNDAC" style="max-width: 320px; width: 100%; height: auto; position: relative; z-index: 2; border-radius: 50%; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.4)); transform: scale(1.05); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1.05)'" />
-          </div>
-          
-        </div>
-      </div>
-    </section>
   </main>
+  <Footer slot="footer" />
 </Layout>
