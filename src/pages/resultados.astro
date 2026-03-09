@@ -1,0 +1,720 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+// Import JSON data
+import resultadosData from '../data/resultados.json';
+
+// Get unique processes (reversed to show newest first)
+const procesos = resultadosData.map(item => item.proceso).reverse();
+
+// We will send the full JSON data to the client
+const resultadosJsonString = JSON.stringify(resultadosData);
+---
+
+<Layout
+  title="Resultados de Admisión | UNDAC"
+  description="Plataforma de Consulta Oficial de Resultados del Examen de Admisión de la Universidad Nacional Daniel Alcides Carrión."
+  keywords="resultados, admisión, UNDAC, examen, ingresantes, consulta rápida"
+>
+  <Header slot="header" />
+
+  <div class="consulta-page">
+    
+    <!-- SCRIPT DE DATOS (Oculto en un div para evitar parse errors de Astro) -->
+    <div id="resultados-data" data-json={resultadosJsonString} style="display: none;"></div>
+
+    <!-- ======== HERO & SEARCH SECTION ======== -->
+    <section class="hero-search-section">
+      <div class="hss-background">
+          <!-- Patrón decorativo de fondo opcional -->
+          <div class="hss-pattern"></div>
+      </div>
+      
+      <div class="container hss-content">
+        <h1 class="hss-title">Consulta de Resultados</h1>
+        <p class="hss-subtitle">Descubre tu resultado de ingreso a la Universidad de forma rápida y segura.</p>
+
+        <!-- CAJA DE BÚSQUEDA GIGANTE -->
+        <div class="master-search-box">
+           <div class="msb-group process-group">
+               <label for="master-proceso">Proceso de Admisión</label>
+               <select id="master-proceso" aria-label="Seleccionar Proceso">
+                   {procesos.map((proceso, index) => (
+                       <option value={resultadosData.length - 1 - index}>{proceso}</option>
+                   ))}
+               </select>
+               <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+           </div>
+           
+           <div class="msb-divider"></div>
+
+           <div class="msb-group input-group">
+               <label for="master-search">Búsqueda del Postulante</label>
+               <div class="input-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="master-search" placeholder="Ingresa tu DNI o tus Apellidos..." autocomplete="off"/>
+                    <button id="clear-search" class="clear-btn" style="display: none;" aria-label="Limpiar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+               </div>
+           </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======== ZONA DE RESULTADOS ======== -->
+    <main class="results-zone container">
+        
+        <!-- El ESTADO DE INICIO FUE ELIMINADO PARA MOSTRAR LAS TABLAS POR DEFECTO -->
+
+        <!-- ESTADO 2: MOSTRANDO POSTULANTE (HERO CARDS) -->
+        <div id="state-hero-cards" class="state-panel">
+            <div class="search-info">
+                <span id="search-matches-count">0</span> coincidencias encontradas
+            </div>
+            <div id="hero-cards-container" class="hero-cards-grid">
+                <!-- JS inyecta las Tarjetas Héroe Personales Aquí -->
+            </div>
+        </div>
+
+        <!-- ESTADO 3: CATÁLOGO DE ESCUELAS (MOSTRADO POR DEFECTO) -->
+        <div id="state-catalog" class="state-panel active">
+            
+            <div class="catalog-header">
+                <div class="ch-text">
+                    <h2>Listado General de Resultados</h2>
+                    <p>Explorando el proceso de admisión: <span id="catalog-proceso-name" class="font-bold" style="color: var(--undac-blue);"></span>.</p>
+                </div>
+            </div>
+
+            <!-- Seleccionador Rápido (Minimalista y Limpio) -->
+            <div class="school-selector">
+                <select id="school-select" class="clean-select">
+                     <option value="" disabled selected>-- Elige una Escuela Profesional --</option>
+                     <!-- JS inyecta opciones de escuelas -->
+                </select>
+            </div>
+
+            <!-- TABLA DE RESULTADOS DE LA ESCUELA (Limpia, Bordes sutiles) -->
+            <div id="school-table-wrapper" class="school-table-wrapper" style="display: none;">
+                
+                <div class="stw-stats">
+                    <span class="st-tag">Total: <b id="st-total">0</b></span>
+                    <span class="st-tag tag-green">Ingresantes: <b id="st-ing">0</b></span>
+                </div>
+
+                <div class="table-scroller">
+                    <table class="clean-table">
+                        <thead>
+                            <tr>
+                                <th width="10%" class="text-center">Mérito</th>
+                                <th width="15%">Documento</th>
+                                <th width="45%">Apellidos y Nombres</th>
+                                <th width="15%" class="text-right">Puntaje</th>
+                                <th width="15%" class="text-center">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="school-tbody">
+                            <!-- JS inyecta filas TR -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+  </div>
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+/* --- VARIABLES --- */
+:root {
+    --bg-page: #f8fafc;
+    --undac-dark: #0f172a;
+    --undac-blue: #1e3a8a;
+    --undac-blue-light: #eff6ff;
+    
+    --color-text: #1e293b;
+    --color-text-mut: #64748b;
+    --color-border: #e2e8f0;
+
+    --ingreso-bg: #dcfce7;
+    --ingreso-txt: #166534;
+    --ingreso-border: #bbf7d0;
+
+    --noingreso-bg: #fee2e2;
+    --noingreso-txt: #991b1b;
+}
+
+body { background-color: var(--bg-page); color: var(--color-text); }
+.consulta-page { min-height: calc(100vh - var(--header-height)); padding-bottom: 4rem;}
+
+/* --- HERO & SEARCH SECTION --- */
+.hero-search-section {
+    position: relative;
+    background: linear-gradient(135deg, var(--undac-dark) 0%, var(--undac-blue) 100%);
+    padding: calc(var(--header-height) + 4rem) 0 6rem 0; /* Padding inferior grande para sobreponer el buscador */
+    color: white;
+    text-align: center;
+}
+.hss-background {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    overflow: hidden; pointer-events: none; opacity: 0.1;
+}
+/* Patrón sutil */
+.hss-pattern {
+    width: 100%; height: 100%;
+    background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0);
+    background-size: 32px 32px;
+}
+.hss-content { position: relative; z-index: 10;}
+.hss-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);}
+.hss-subtitle { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto 3rem auto;}
+
+/* LA CAJA GIGANTE DE BÚSQUEDA */
+.master-search-box {
+    background: white;
+    border-radius: 16px;
+    padding: 1rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    max-width: 850px;
+    margin: 0 auto;
+    transform: translateY(1rem); /* Baja la caja invadiendo la zona gris */
+    border: 1px solid rgba(255,255,255,0.2);
+}
+@media (min-width: 768px) {
+    .master-search-box { flex-direction: row; padding: 0.5rem 1rem; align-items: center; border-radius: 999px; transform: translateY(3rem);}
+}
+
+.msb-group {
+    display: flex; flex-direction: column; text-align: left; padding: 0.75rem 1rem;
+}
+.process-group { flex: 0 0 auto; position: relative;}
+@media (min-width: 768px) { .process-group { width: 300px; } }
+.input-group { flex: 1; }
+
+.msb-group label {
+    font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--color-text-mut); margin-bottom: 4px; padding-left: 2px;
+}
+
+/* Base Inputs without borders inside the master box */
+.master-search-box select, .master-search-box input {
+    width: 100%; border: none; background: transparent; color: var(--color-text);
+    font-size: 1.1rem; font-weight: 600; padding: 0; margin: 0; outline: none;
+}
+.master-search-box select { appearance: none; cursor: pointer; }
+.master-search-box input::placeholder { color: #94a3b8; font-weight: 400; }
+
+.select-chevron {
+    position: absolute; right: 1rem; bottom: 1rem; width: 1.25rem; height: 1.25rem; color: #94a3b8; pointer-events: none;
+}
+
+.msb-divider {
+    display: none; width: 1px; background-color: var(--color-border); align-self: stretch; margin: 1rem 0;
+}
+@media (min-width: 768px) { .msb-divider { display: block; } }
+
+.input-wrapper { position: relative; display: flex; align-items: center; }
+.search-icon { width: 1.5rem; height: 1.5rem; color: var(--undac-blue); margin-right: 0.75rem;}
+.master-search-box input { flex: 1; height: 32px;}
+
+.clear-btn { background: #f1f5f9; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--color-text-mut); cursor: pointer;}
+.clear-btn:hover { background: #e2e8f0; color: var(--color-text);}
+.clear-btn svg { width: 16px; height: 16px;}
+
+
+/* --- ZONAS DE RESULTADO --- */
+.results-zone {
+    margin-top: 4rem; /* Empujar hacia abajo tras invadir la cabecera */
+}
+.state-panel {
+    display: none; animation: fadeIn 0.4s ease;
+}
+.state-panel.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* STATE 1: WELCOME */
+.welcome-box {
+    text-align: center; max-width: 500px; margin: 2rem auto; padding: 3rem 2rem;
+}
+.wb-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;}
+.welcome-box h2 { font-size: 1.5rem; font-weight: 700; color: var(--undac-dark); margin-bottom: 0.5rem;}
+.welcome-box p { color: var(--color-text-mut); line-height: 1.6;}
+.wb-divider { margin: 2rem 0; color: #cbd5e1; font-weight: 700;}
+.btn-text-link {
+    background: transparent; border: none; color: var(--undac-blue); font-weight: 700; font-size: 1rem; cursor: pointer; border-bottom: 1px solid transparent; transition: border-color 0.2s; padding: 0;
+}
+.btn-text-link:hover { border-bottom-color: var(--undac-blue); }
+
+/* STATE 2: HERO CARDS (El Resultado del Estudiante) */
+.search-info { font-size: 0.85rem; color: var(--color-text-mut); margin-bottom: 1.5rem; text-align: right; font-weight: 600;}
+.hero-cards-grid {
+    display: flex; flex-direction: column; gap: 1.5rem;
+    max-width: 700px; margin: 0 auto;
+}
+
+/* La Tarjeta de Héroe (The Hero Card) */
+.hc-card {
+    background: white; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid var(--color-border);
+    position: relative;
+    display: flex; flex-direction: column;
+}
+
+/* Cinta superior color estado */
+.hc-ribbon { height: 8px; width: 100%; }
+.ribbon-success { background: var(--ingreso-txt); }
+.ribbon-neutral { background: #94a3b8; }
+.ribbon-danger { background: var(--noingreso-txt); }
+
+.hc-body { padding: 2rem; }
+.hc-header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;}
+
+.hc-identity h3 { font-size: 1.5rem; font-weight: 800; color: var(--undac-dark); line-height: 1.1; margin-bottom: 0.5rem;}
+.hc-identity p { font-size: 1rem; color: var(--color-text-mut); font-family: monospace; font-weight: 600;}
+
+.hc-status-badge {
+    padding: 0.5rem 1.25rem; border-radius: 999px; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;
+    border: 1px solid transparent;
+}
+.hb-success { background: var(--ingreso-bg); color: var(--ingreso-txt); border-color: var(--ingreso-border); }
+.hb-neutral { background: #f1f5f9; color: #475569; border-color: #e2e8f0; }
+.hb-danger  { background: var(--noingreso-bg); color: var(--noingreso-txt); border-color: #fecaca; }
+
+.hc-divider { height: 1px; background: var(--color-border); margin: 0 0 1.5rem 0; }
+
+.hc-data-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+.hd-item { display: flex; flex-direction: column; }
+.hd-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--color-text-mut); margin-bottom: 0.25rem;}
+.hd-value { font-size: 1.25rem; font-weight: 800; color: var(--undac-dark);}
+.hd-value.score { font-variant-numeric: tabular-nums; }
+.hd-school { color: var(--undac-blue); font-size: 1.1rem;}
+
+/* Medallas especiales para 1, 2, 3 puestos */
+.hd-value.merit-1 { color: #d97706; text-shadow: 0 1px 2px rgba(217, 119, 6, 0.2); } /* Gold */
+.hd-value.merit-1::after { content: " 🥇"; font-size: 1rem;}
+.hd-value.merit-2 { color: #64748b; } /* Silver */
+.hd-value.merit-2::after { content: " 🥈"; font-size: 1rem;}
+.hd-value.merit-3 { color: #9a3412; } /* Bronze */
+.hd-value.merit-3::after { content: " 🥉"; font-size: 1rem;}
+
+
+/* STATE 3: CATÁLOGO DE ESCUELAS (OCULTO/SECUNDARIO) */
+.catalog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 1rem;}
+.ch-text h2 { font-size: 1.75rem; font-weight: 800; color: var(--undac-dark);}
+.ch-text p { color: var(--color-text-mut);}
+.btn-close-catalog {
+    background: white; border: 1px solid var(--color-border); color: var(--color-text); padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.btn-close-catalog:hover { background: #f1f5f9; }
+
+.school-selector { margin-bottom: 2rem; }
+.clean-select {
+    width: 100%; max-width: 500px;
+    padding: 1rem 1.5rem; font-size: 1.1rem; font-weight: 600; color: var(--color-text);
+    background: white; border: 2px solid var(--color-border); border-radius: 12px;
+    cursor: pointer; outline: none; transition: border-color 0.2s;
+    appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em;
+}
+.clean-select:focus { border-color: var(--undac-blue); }
+
+.school-table-wrapper {
+    background: white; border: 1px solid var(--color-border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.stw-stats {
+    padding: 1rem 1.5rem; background: var(--bg-page); border-bottom: 1px solid var(--color-border); display: flex; gap: 1rem;
+}
+.st-tag { font-size: 0.85rem; font-weight: 600; color: var(--color-text-mut); }
+.st-tag b { color: var(--undac-dark); margin-left: 4px;}
+.tag-green b { color: var(--ingreso-txt);}
+
+/* --- VISTA DE TABLA ULTRA-MODERNA (APP STYLE) --- */
+.table-scroller { 
+    overflow-x: auto; 
+    padding: 1rem;
+    background: #f8fafc; /* Fondo suave para que resalten las filas blancas */
+}
+
+/* La tabla principal abandona las líneas estrictas */
+.clean-table { 
+    width: 100%; 
+    border-collapse: separate; /* Permite espaciado entre filas */
+    border-spacing: 0 0.75rem; /* Separación vertical entre filas */
+    min-width: 800px; 
+}
+
+/* Cabecera flotante e invisible casi */
+.clean-table th {
+    padding: 0 1.5rem 0.5rem 1.5rem; 
+    text-align: left; 
+    font-size: 0.75rem; 
+    font-weight: 800; 
+    letter-spacing: 0.05em;
+    text-transform: uppercase; 
+    color: var(--color-text-mut); 
+    border-bottom: none;
+}
+
+/* Filas como Tarjetas Independientes (Row Cards) */
+.clean-table tbody tr {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px -1px rgba(0,0,0,0.04), 0 1px 3px -1px rgba(0,0,0,0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.clean-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+}
+
+/* Celdas con bordes redondeados en los extremos */
+.clean-table td { 
+    padding: 1.25rem 1.5rem; 
+    vertical-align: middle; 
+    color: var(--color-text);
+    border: none; /* Sin bordes grises clásicos */
+}
+.clean-table td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+.clean-table td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
+
+
+/* Table Columns Styling Refinado */
+.td-rank { 
+    font-weight: 800; 
+    color: var(--undac-blue); 
+    font-size: 1.1rem;
+}
+.td-doc { 
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; 
+    font-size: 0.85rem; 
+    color: var(--color-text-mut); 
+    background: #f1f5f9;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+}
+.td-name { 
+    font-weight: 800; 
+    font-size: 1.05rem;
+    color: var(--undac-dark);
+}
+.td-score { 
+    font-weight: 900; 
+    font-variant-numeric: tabular-nums; 
+    font-size: 1.2rem; 
+    color: var(--undac-dark);
+}
+
+/* Minimal Table Badge Pildora */
+.tbl-badge {
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 1rem; 
+    border-radius: 9999px; /* Píldora total */
+    font-size: 0.75rem; 
+    font-weight: 800; 
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    min-width: 120px;
+}
+.tb-yes { background: var(--ingreso-bg); color: var(--ingreso-txt); border: 1px solid var(--ingreso-border); }
+.tb-no  { background: var(--noingreso-bg); color: var(--noingreso-txt); border: 1px solid #fecaca; }
+.tb-neu { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+/* Utils */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.font-bold { font-weight: 800; }
+.empty-tr { background: transparent !important; box-shadow: none !important; }
+.empty-tr td { padding: 4rem; text-align: center; color: var(--color-text-mut); font-weight: 600;}
+</style>
+
+<script>
+// --- CONTEXTO DE DATOS ---
+// En Astro, para acceder a variables del frontmatter en el cliente, 
+// la mejor manera limpia y segura es serializar los datos en el HTML como un atributo data-* 
+// o un script JSON y parsearlo.
+let allData = [];
+const dataDiv = document.getElementById('resultados-data');
+if (dataDiv && dataDiv.dataset.json) {
+    try { 
+        allData = JSON.parse(dataDiv.dataset.json); 
+        console.log("Datos cargados correctamente:", allData.length, "procesos");
+    } catch (e) { 
+        console.error("Error parsing results global data", e); 
+    }
+}
+
+// --- DOM ELEMENTS ---
+// Master Search
+const masterProceso = document.getElementById('master-proceso') as HTMLSelectElement;
+const masterSearch = document.getElementById('master-search') as HTMLInputElement;
+const btnClearSearch = document.getElementById('clear-search');
+
+// States
+const stHero = document.getElementById('state-hero-cards');
+const stCatalog = document.getElementById('state-catalog');
+
+// Hero Content
+const searchMatchesCount = document.getElementById('search-matches-count');
+const heroCardsContainer = document.getElementById('hero-cards-container');
+
+// Catalog Content
+const catProcesoName = document.getElementById('catalog-proceso-name');
+const schoolSelect = document.getElementById('school-select') as HTMLSelectElement;
+const schoolTableWrapper = document.getElementById('school-table-wrapper');
+const schoolTbody = document.getElementById('school-tbody');
+const stTotal = document.getElementById('st-total');
+const stIng = document.getElementById('st-ing');
+
+// --- STATE ---
+let idxProceso = 0;
+if (masterProceso && masterProceso.options.length > 0) idxProceso = parseInt(masterProceso.selectedOptions[0].value);
+
+
+// --- HELPER LOGIC ---
+const parseStatus = (estado: string) => {
+    const isAdmitted = estado === "INGRESO" || estado === "VACANTE ALCANZADA" || estado.includes("ALCANZÓ");
+    const isNoAdmitted = estado.includes("NO INGRESO");
+    
+    let type = 'neutral';
+    if(isAdmitted) type = 'success';
+    else if(isNoAdmitted) type = 'danger';
+
+    return { raw: estado, type: type };
+};
+
+const switchState = (state: 'hero' | 'catalog') => {
+    if(stHero) stHero.classList.remove('active');
+    if(stCatalog) stCatalog.classList.remove('active');
+
+    if(state === 'hero') stHero?.classList.add('active');
+    if(state === 'catalog') stCatalog?.classList.add('active');
+};
+
+
+// --- RENDER 1: HERO CARDS (SEARCH ENGINE) ---
+const renderHeroCards = () => {
+    const query = masterSearch.value.trim().toLowerCase();
+    
+    // Toggle clear button
+    if(btnClearSearch) btnClearSearch.style.display = query.length > 0 ? 'flex' : 'none';
+
+    if(query.length < 3) {
+        // If they empty the search, go back to catalog
+        if(stHero?.classList.contains('active')) switchState('catalog');
+        return; 
+    }
+
+    const procesoData = allData[idxProceso];
+    if(!procesoData) return;
+
+    let hits: {student: any, school: string}[] = [];
+
+    // Brute Search
+    procesoData.carreras.forEach((c:any) => {
+        c.postulantes.forEach((p:any) => {
+            if(p.dni.toLowerCase().includes(query) || p.nombre.toLowerCase().includes(query)){
+                hits.push({student: p, school: c.carrera});
+            }
+        });
+    });
+
+    if(searchMatchesCount) searchMatchesCount.textContent = hits.length.toString();
+
+    if(!heroCardsContainer) return;
+
+    if(hits.length === 0){
+        heroCardsContainer.innerHTML = `
+            <div style="text-align:center; padding: 4rem 1rem; color: var(--color-text-mut); background:white; border-radius:16px;">
+                 <h3 style="font-size:1.25rem; color:var(--undac-dark); margin-bottom:0.5rem;">Cero resultados</h3>
+                 No encontramos postulantes con "${query}" en este proceso.
+            </div>
+        `;
+    } else {
+        // Sort best score first
+        hits.sort((a,b) => b.student.puntaje - a.student.puntaje);
+        
+        let htmlStr = '';
+        hits.forEach(hit => {
+            const stu = hit.student;
+            const stat = parseStatus(stu.estado);
+            
+            // Classes based on status
+            const ribbonCls = stat.type === 'success' ? 'ribbon-success' : stat.type === 'danger' ? 'ribbon-danger' : 'ribbon-neutral';
+            const badgeCls = stat.type === 'success' ? 'hb-success' : stat.type === 'danger' ? 'hb-danger' : 'hb-neutral';
+            
+            // Merit classes (1,2,3)
+            let meritCls = '';
+            if(stu.orden_merito === 1) meritCls = 'merit-1';
+            else if(stu.orden_merito === 2) meritCls = 'merit-2';
+            else if(stu.orden_merito === 3) meritCls = 'merit-3';
+
+            const score = Number(stu.puntaje).toFixed(2);
+            const rank = stu.orden_merito ? stu.orden_merito : '-';
+
+            htmlStr += `
+                <div class="hc-card">
+                    <div class="hc-ribbon ${ribbonCls}"></div>
+                    <div class="hc-body">
+                        
+                        <div class="hc-header-row">
+                            <div class="hc-identity">
+                                <h3>${stu.nombre}</h3>
+                                <p>DNI: ${stu.dni}</p>
+                            </div>
+                            <div class="hc-status-badge ${badgeCls}">
+                                ${stat.raw}
+                            </div>
+                        </div>
+
+                        <div class="hc-divider"></div>
+
+                        <div class="hc-data-grid">
+                            <div class="hd-item" style="grid-column: span 3;">
+                                <span class="hd-label">Escuela Profesional</span>
+                                <span class="hd-value hd-school">${hit.school}</span>
+                            </div>
+                            <div class="hd-item" style="grid-column: span 1;">
+                                <span class="hd-label">Orden de Mérito</span>
+                                <span class="hd-value ${meritCls}">${rank}</span>
+                            </div>
+                            <div class="hd-item" style="grid-column: span 2;">
+                                <span class="hd-label">Puntaje Total</span>
+                                <span class="hd-value score">${score} puntos</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+        });
+        heroCardsContainer.innerHTML = htmlStr;
+    }
+
+    switchState('hero');
+};
+
+
+// --- RENDER 2: CATALOG BUILDER (The select box) ---
+const buildCatalogSelector = () => {
+    const procesoData = allData[idxProceso];
+    if(!procesoData) return;
+
+    if(catProcesoName) catProcesoName.textContent = procesoData.proceso;
+
+    // Reset Table
+    if(schoolTableWrapper) schoolTableWrapper.style.display = 'none';
+
+    // Build options string
+    let options = ``;
+    
+    // Sort careers alphabetically
+    const tCarreras = [...procesoData.carreras].sort((a,b) => a.carrera.localeCompare(b.carrera));
+
+    tCarreras.forEach((c:any) => {
+        options += `<option value="${c.carrera}">${c.carrera}</option>`;
+    });
+
+    if(schoolSelect) {
+        schoolSelect.innerHTML = options;
+        
+        // Auto-select first career and render its table automatically
+        if(tCarreras.length > 0) {
+             const firstSchool = tCarreras[0].carrera;
+             schoolSelect.value = firstSchool;
+             renderSchoolTable(firstSchool);
+        }
+
+        // Handle Change Events
+        schoolSelect.onchange = (e) => {
+            const val = (e.target as HTMLSelectElement).value;
+            renderSchoolTable(val);
+        };
+    }
+};
+
+const renderSchoolTable = (schoolName: string) => {
+    const procesoData = allData[idxProceso];
+    const cat = procesoData.carreras.find((c:any) => c.carrera === schoolName);
+    if(!cat || !schoolTbody || !schoolTableWrapper) return;
+
+    let total = 0; let ing = 0;
+    
+    const rows = cat.postulantes.map((stu:any) => {
+        total++;
+        const stat = parseStatus(stu.estado);
+        if(stat.type === 'success') ing++;
+
+        const trBadgeCls = stat.type === 'success' ? 'tb-yes' : stat.type === 'danger' ? 'tb-no' : 'tb-neu';
+        const score = Number(stu.puntaje).toFixed(2);
+        const rank = stu.orden_merito ? stu.orden_merito : '-';
+
+        return `
+            <tr>
+                <td class="td-rank text-center">${rank}</td>
+                <td class="td-doc">${stu.dni}</td>
+                <td class="td-name">${stu.nombre}</td>
+                <td class="td-score text-right">${score}</td>
+                <td class="text-center"><span class="tbl-badge ${trBadgeCls}">${stat.raw}</span></td>
+            </tr>
+        `;
+    });
+
+    if(stTotal) stTotal.textContent = total.toString();
+    if(stIng) stIng.textContent = ing.toString();
+
+    if(rows.length === 0){
+        schoolTbody.innerHTML = `<tr class="empty-tr"><td colspan="5">Sin inscritos en esta escuela.</td></tr>`;
+    } else {
+        schoolTbody.innerHTML = rows.join('');
+    }
+
+    schoolTableWrapper.style.display = 'block';
+};
+
+// --- EVENTS ---
+// 1. Selector de Proceso
+if(masterProceso) {
+    masterProceso.addEventListener('change', (e) => {
+        idxProceso = parseInt((e.target as HTMLSelectElement).value);
+        // Si estaba buscando, reactualizar
+        if(masterSearch.value.trim().length >= 3){
+            renderHeroCards();
+        } 
+        // Actualizar datos del catalogo por si entra a explorar
+        buildCatalogSelector();
+    });
+}
+
+// 2. Buscador Input (Debounced)
+let msTimer:any;
+if(masterSearch) {
+    masterSearch.addEventListener('input', () => {
+        clearTimeout(msTimer);
+        msTimer = setTimeout(renderHeroCards, 250);
+    });
+}
+if(btnClearSearch) {
+    btnClearSearch.addEventListener('click', () => {
+        masterSearch.value = '';
+        renderHeroCards(); // will clear and send to catalog
+    });
+}
+
+// Init
+buildCatalogSelector();
+</script>
